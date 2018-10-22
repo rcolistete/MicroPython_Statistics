@@ -27,4 +27,4 @@ The MicroPython version of statistics module has some limitations :
 - no error messages;
 - no documentation and examples for each function inside the module.
 
-Many MicroPython modules are optimised to save RAM memory because many microcontrollers only have tens of KBytes.
+Many MicroPython modules are optimised to save RAM memory because many microcontrollers only have tens of KBytes. 
