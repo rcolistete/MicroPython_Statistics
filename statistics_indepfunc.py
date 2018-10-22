@@ -1,5 +1,5 @@
 """
-Statistics module for MicroPython :
+Statistics module for MicroPython (with independent functions) :
 https://github.com/rcolistete/MicroPython_Statistics
 Version: 0.4.1 @ 2018/10/19
 Author: Roberto Colistete Jr. (roberto.colistete at gmail.com)
@@ -70,25 +70,38 @@ def mode(data):
         i += 1
     return modev
 
-def _ss(data, c=None):
-    if c is None:
-        c = mean(data)
-    total = sum([(x - c)**2 for x in data])
-    total -= sum([(x - c) for x in data])**2/len(data)
-    return total
-
 def variance(data, xbar=None):
     if iter(data) is data:
         data = list(data)
-    return _ss(data, xbar)/(len(data) - 1)
+    if xbar is None:
+        xbar = sum(data)/len(data)
+    total = sum([(x - xbar)**2 for x in data])
+    total -= sum([(x - xbar) for x in data])**2/len(data)
+    return total/(len(data) - 1)
 
 def pvariance(data, mu=None):
     if iter(data) is data:
         data = list(data)
-    return _ss(data, mu)/len(data)
+    if mu is None:
+        mu = sum(data)/len(data)
+    total = sum([(x - mu)**2 for x in data])
+    total -= sum([(x - mu) for x in data])**2/len(data)
+    return total/len(data)
 
 def stdev(data, xbar=None):
-    return math.sqrt(variance(data, xbar))
+    if iter(data) is data:
+        data = list(data)
+    if xbar is None:
+        xbar = sum(data)/len(data)
+    total = sum([(x - xbar)**2 for x in data])
+    total -= sum([(x - xbar) for x in data])**2/len(data)
+    return math.sqrt(total/(len(data) - 1))
 
 def pstdev(data, mu=None):
-    return math.sqrt(pvariance(data, mu))
+    if iter(data) is data:
+        data = list(data)
+    if mu is None:
+        mu = sum(data)/len(data)
+    total = sum([(x -  mu)**2 for x in data])
+    total -= sum([(x - mu) for x in data])**2/len(data)
+    return math.sqrt(total/len(data))
