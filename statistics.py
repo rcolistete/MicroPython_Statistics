@@ -1,7 +1,7 @@
 """
-Statistics module for MicroPython :
+Statistics module for MicroPython (with low memory usage):
 https://github.com/rcolistete/MicroPython_Statistics
-Version: 0.4.1 @ 2018/10/19
+Version: 0.5.0 @ 2018/10/24
 Author: Roberto Colistete Jr. (roberto.colistete at gmail.com)
 License: MIT License (https://opensource.org/licenses/MIT)
 """
@@ -73,8 +73,11 @@ def mode(data):
 def _ss(data, c=None):
     if c is None:
         c = mean(data)
-    total = sum([(x - c)**2 for x in data])
-    total -= sum([(x - c) for x in data])**2/len(data)
+    total = total2 = 0
+    for x in data:
+        total += (x - c)**2
+        total2 += (x - c) 
+    total -= total2**2/len(data)
     return total
 
 def variance(data, xbar=None):
@@ -92,3 +95,4 @@ def stdev(data, xbar=None):
 
 def pstdev(data, mu=None):
     return math.sqrt(pvariance(data, mu))
+

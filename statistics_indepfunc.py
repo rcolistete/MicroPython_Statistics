@@ -1,7 +1,7 @@
 """
-Statistics module for MicroPython (with independent functions) :
+Statistics module for MicroPython (with independent functions and low memory usage) :
 https://github.com/rcolistete/MicroPython_Statistics
-Version: 0.4.1 @ 2018/10/19
+Version: 0.5.0 @ 2018/10/24
 Author: Roberto Colistete Jr. (roberto.colistete at gmail.com)
 License: MIT License (https://opensource.org/licenses/MIT)
 """
@@ -75,8 +75,11 @@ def variance(data, xbar=None):
         data = list(data)
     if xbar is None:
         xbar = sum(data)/len(data)
-    total = sum([(x - xbar)**2 for x in data])
-    total -= sum([(x - xbar) for x in data])**2/len(data)
+    total = total2 = 0
+    for x in data:
+        total += (x - xbar)**2
+        total2 += (x - xbar) 
+    total -= total2**2/len(data)
     return total/(len(data) - 1)
 
 def pvariance(data, mu=None):
@@ -84,8 +87,11 @@ def pvariance(data, mu=None):
         data = list(data)
     if mu is None:
         mu = sum(data)/len(data)
-    total = sum([(x - mu)**2 for x in data])
-    total -= sum([(x - mu) for x in data])**2/len(data)
+    total = total2 = 0
+    for x in data:
+        total += (x - mu)**2
+        total2 += (x - mu) 
+    total -= total2**2/len(data)
     return total/len(data)
 
 def stdev(data, xbar=None):
@@ -93,8 +99,11 @@ def stdev(data, xbar=None):
         data = list(data)
     if xbar is None:
         xbar = sum(data)/len(data)
-    total = sum([(x - xbar)**2 for x in data])
-    total -= sum([(x - xbar) for x in data])**2/len(data)
+    total = total2 = 0
+    for x in data:
+        total += (x - xbar)**2
+        total2 += (x - xbar) 
+    total -= total2**2/len(data)
     return math.sqrt(total/(len(data) - 1))
 
 def pstdev(data, mu=None):
@@ -102,6 +111,9 @@ def pstdev(data, mu=None):
         data = list(data)
     if mu is None:
         mu = sum(data)/len(data)
-    total = sum([(x -  mu)**2 for x in data])
-    total -= sum([(x - mu) for x in data])**2/len(data)
+    total = total2 = 0
+    for x in data:
+        total += (x - mu)**2
+        total2 += (x - mu) 
+    total -= total2**2/len(data)
     return math.sqrt(total/len(data))
